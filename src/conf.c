@@ -105,7 +105,15 @@ typedef enum {
 	oFWMarkTrusted,
 	oFWMarkBlocked,
 	oBinAuth,
-	oPreAuth
+	oPreAuth,
+	oMaxDownloadLimitPerUser,
+	oMaxUploadLimitPerUser,
+	oMinUploadSpeedLimitPerUser,
+	oMinDownloadSpeedLimitPerUser,
+	oMaxDataUsageBeforeReduceTheSpeed,
+	oMaxDataUsageBeforeDisconnection,
+	oPortalEnabled,
+	oMemcachedEnabled
 } OpCodes;
 
 /** @internal
@@ -156,8 +164,17 @@ static const struct {
 	{ "fw_mark_blocked", oFWMarkBlocked },
 	{ "binauth", oBinAuth },
 	{ "preauth", oPreAuth },
+	{ "MaxDownloadLimitPerUser", oMaxDownloadLimitPerUser },
+	{ "MaxUploadLimitPerUser", oMaxUploadLimitPerUser },
+	{ "MinDownloadSpeedLimitPerUser", oMinDownloadSpeedLimitPerUser },
+	{ "MinUploadSpeedLimitPerUser", oMinUploadSpeedLimitPerUser },
+	{ "MaxDataUsageBeforeReduceTheSpeed", oMaxDataUsageBeforeReduceTheSpeed },
+	{ "oMaxDataUsageBeforeDisconnection", oMaxDataUsageBeforeDisconnection },
+	{ "PortalEnabled", oPortalEnabled },
+	{ "MemcachedEnabled", oMemcachedEnabled},
 	{ NULL, oBadOption },
 };
+
 
 static void config_notnull(const void *parm, const char *parmname);
 static int parse_boolean(const char *);
@@ -232,6 +249,14 @@ config_init(void)
 	config.ip6 = DEFAULT_IP6;
 	config.binauth = NULL;
 	config.preauth = NULL;
+	config.maximum_download_limit_speed_per_user = DEFAULT_MAXIMUM_DOWNLOAD_LIMIT_PER_USER;
+	config.maximum_upload_limit_speed_per_user = DEFAULT_MAXIMUM_UPLOAD_LIMIT_PER_USER;
+	config.minimum_download_limit_speed_per_user = DEFAULT_MINIMUM_DOWNLOAD_LIMIT_PER_USER;
+	config.minimum_upload_limit_speed_per_user = DEFAULT_MINIMUM_UPLOAD_LIMIT_PER_USER;
+	config.maximum_data_consumed_before_reduce_speed = DEFAULT_MAXIMUM_DATA_CONSUMED_BEFORE_REDUCE_SPEED;
+	config.maximum_data_consumed_before_disconnect = DEFAULT_MAXIMUM_DATA_CONSUMED_BEFORE_DISCONNECT;
+	config.portal_enabled = DEFAULT_PORTAL_ENABLED;
+	config.memcached_enabled = DEFAULT_MEMCACHED_ENABLED;
 
 	/* Set up default FirewallRuleSets, and their empty ruleset policies */
 	rs = add_ruleset("trusted-users");
@@ -265,12 +290,14 @@ config_parse_opcode(const char *cp, const char *filename, int linenum)
 {
 	int i;
 
+
 	for (i = 0; keywords[i].name; i++) {
+		debug(LOG_ERR, "Key : %s", keywords[i].name);
 		if (strcasecmp(cp, keywords[i].name) == 0) {
 			return keywords[i].opcode;
 		}
 	}
-
+	debug(LOG_ERR, "Error %s", cp);
 	debug(LOG_ERR, "%s: line %d: Bad configuration option: %s", filename, linenum, cp);
 	return oBadOption;
 }
@@ -938,7 +965,16 @@ config_read(const char *filename)
 				exit(1);
 			}
 			break;
+			case oMaxDownloadLimitPerUser:
+			debug(LOG_ERR ,"MaxDonloadLimitPerUser : %i", p1);
+			if (sscanf(p1, "%d", &config.maximum_download_limit_speed_per_user) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
 		case oBadOption:
+			debug(LOG_ERR, "Error opts %s", opcode);
 			debug(LOG_ERR, "Bad option %s on line %d in %s", s, linenum, filename);
 			debug(LOG_ERR, "Exiting...");
 			exit(1);

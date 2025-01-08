@@ -94,6 +94,8 @@
 #define DEFAULT_EMPTY_AUTHENTICATED_USERS_POLICY "RETURN"
 #define DEFAULT_EMPTY_PREAUTHENTICATED_USERS_POLICY "REJECT"
 #define DEFAULT_IP6 0
+#define DEFAULT_MEMCACHED_ENABLED 0
+#define DEFAULT_PORTAL_ENABLED 1
 /*@}*/
 
 /**
@@ -189,6 +191,14 @@ typedef struct {
 	int ip6;			/**< @brief enable IPv6 */
 	char *binauth;			/**< @brief external authentication program */
 	char *preauth;			/**< @brief external preauthentication program */
+	int maximum_download_limit_speed_per_user; /**< @brief max download speed per user */
+	int maximum_upload_limit_speed_per_user; /**< @brief max upload speed per user */
+	int minimum_download_limit_speed_per_user; /**< @brief min download speed per user */
+	int minimum_upload_limit_speed_per_user; /**< @brief  min upload speed per user */
+	int maximum_data_consumed_before_reduce_speed; /**< @brief maximum data allowed before reduce speed */
+	int maximum_data_consumed_before_disconnect; /**< @brief maximum data allowed before disconnect the user */
+	int portal_enabled; /**< @brief for enable or disable login splash */
+	int memcached_enabled; /**< @brief for enable memcahe user auth and usage send to flespi */
 } s_config;
 
 /** @brief Get the current gateway configuration */
