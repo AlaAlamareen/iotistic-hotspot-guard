@@ -106,8 +106,8 @@ typedef enum {
 	oFWMarkBlocked,
 	oBinAuth,
 	oPreAuth,
-	oMaxDownloadLimitPerUser,
-	oMaxUploadLimitPerUser,
+	oMaxDownloadSpeedLimitPerUser,
+	oMaxUploadSpeedLimitPerUser,
 	oMinUploadSpeedLimitPerUser,
 	oMinDownloadSpeedLimitPerUser,
 	oMaxDataUsageBeforeReduceTheSpeed,
@@ -164,14 +164,14 @@ static const struct {
 	{ "fw_mark_blocked", oFWMarkBlocked },
 	{ "binauth", oBinAuth },
 	{ "preauth", oPreAuth },
-	{ "MaxDownloadLimitPerUser", oMaxDownloadLimitPerUser },
-	{ "MaxUploadLimitPerUser", oMaxUploadLimitPerUser },
-	{ "MinDownloadSpeedLimitPerUser", oMinDownloadSpeedLimitPerUser },
-	{ "MinUploadSpeedLimitPerUser", oMinUploadSpeedLimitPerUser },
-	{ "MaxDataUsageBeforeReduceTheSpeed", oMaxDataUsageBeforeReduceTheSpeed },
-	{ "oMaxDataUsageBeforeDisconnection", oMaxDataUsageBeforeDisconnection },
-	{ "PortalEnabled", oPortalEnabled },
-	{ "MemcachedEnabled", oMemcachedEnabled},
+	{ "maxdownloadspeedlimitperuser", oMaxDownloadSpeedLimitPerUser },
+	{ "maxuploadspeedlimitperuser", oMaxUploadSpeedLimitPerUser },
+	{ "mindownloadspeedlimitperuser", oMinDownloadSpeedLimitPerUser },
+	{ "minuploadspeedlimitperuser", oMinUploadSpeedLimitPerUser },
+	{ "maxdatausagebeforereducethespeed", oMaxDataUsageBeforeReduceTheSpeed },
+	{ "maxdatausagebeforedisconnection", oMaxDataUsageBeforeDisconnection },
+	{ "portalenabled", oPortalEnabled },
+	{ "memcachedenabled", oMemcachedEnabled},
 	{ NULL, oBadOption },
 };
 
@@ -292,7 +292,6 @@ config_parse_opcode(const char *cp, const char *filename, int linenum)
 
 
 	for (i = 0; keywords[i].name; i++) {
-		debug(LOG_ERR, "Key : %s", keywords[i].name);
 		if (strcasecmp(cp, keywords[i].name) == 0) {
 			return keywords[i].opcode;
 		}
@@ -965,9 +964,57 @@ config_read(const char *filename)
 				exit(1);
 			}
 			break;
-			case oMaxDownloadLimitPerUser:
-			debug(LOG_ERR ,"MaxDonloadLimitPerUser : %i", p1);
+			case oMaxDownloadSpeedLimitPerUser:
 			if (sscanf(p1, "%d", &config.maximum_download_limit_speed_per_user) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
+			case oMaxUploadSpeedLimitPerUser:
+			if (sscanf(p1, "%d", &config.maximum_upload_limit_speed_per_user) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
+			case oMinUploadSpeedLimitPerUser:
+			if (sscanf(p1, "%d", &config.minimum_upload_limit_speed_per_user) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
+			case oMinDownloadSpeedLimitPerUser:
+			if (sscanf(p1, "%d", &config.minimum_download_limit_speed_per_user) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
+			case oMaxDataUsageBeforeDisconnection:
+			if (sscanf(p1, "%d", &config.maximum_data_consumed_before_disconnect) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
+			case oMaxDataUsageBeforeReduceTheSpeed:
+			if (sscanf(p1, "%d", &config.maximum_data_consumed_before_reduce_speed) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
+			case oPortalEnabled:
+			if (sscanf(p1, "%d", &config.portal_enabled) < 1) {
+				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
+				debug(LOG_ERR, "Exiting...");
+				exit(1);
+			}
+			break;
+			case oMemcachedEnabled:
+			if (sscanf(p1, "%d", &config.memcached_enabled) < 1) {
 				debug(LOG_ERR, "Bad arg %s to option %s on line %d in %s", p1, s, linenum, filename);
 				debug(LOG_ERR, "Exiting...");
 				exit(1);

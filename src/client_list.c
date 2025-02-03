@@ -122,7 +122,6 @@ _client_list_append(const char mac[], const char ip[])
 
 	// Reset volatile fields
 	client_reset(client);
-
 	// Blocked or Trusted client do not trigger the splash page.
 	// They must access the splash or status page manually.
 	if (is_blocked_mac(mac)) {
@@ -143,7 +142,8 @@ _client_list_append(const char mac[], const char ip[])
 	} else {
 		prevclient->next = client;
 	}
-
+	if(config->portal_enabled == 0) 
+		auth_client_auth_nolock(client_id ,"");
 	client_id++;
 	client_count++;
 

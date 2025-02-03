@@ -42,7 +42,9 @@ install:
 	cp resources/splash.html $(DESTDIR)/etc/nodogsplash/htdocs/
 	cp resources/splash.css $(DESTDIR)/etc/nodogsplash/htdocs/
 	cp resources/status.html $(DESTDIR)/etc/nodogsplash/htdocs/
-	cp resources/splash.jpg $(DESTDIR)/etc/nodogsplash/htdocs/images/
+	cp resources/images/* $(DESTDIR)/etc/nodogsplash/htdocs/images/
+	cp resources/nds_auth.sh /etc/
+	chmod a+x /etc/nds_auth.sh
 
 checkastyle:
 	@command -v astyle >/dev/null 2>&1 || \

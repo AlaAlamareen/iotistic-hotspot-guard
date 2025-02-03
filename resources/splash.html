@@ -1,97 +1,287 @@
+
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must->
+    <meta http-equiv=" Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.>
+    <link rel="shortcut icon" href="/images/iotisticLogo.png" type="ima>
+    <link rel=" stylesheet" type="text/css" href="/splash.css">
+<style>
 
-<link rel="shortcut icon" href="/images/splash.jpg" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="/splash.css">
+                         
+input {
+  caret-color: red;
+}
 
-<title>$gatewayname Hotspot Gateway.</title>
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ecf0f3;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  place-items: center;
+  font-family: poppins;
+}
 
-<!--
-Content:
-	Nodogsplash (NDS), by default, serves this splash page (splash.html)
-	when a client device Captive Portal Detection (CPD) process
-	attempts to send a port 80 request to the Internet.
+.container  {
+  position: relative;
+  width: 350px;
+  height: 500px;
+  border-radius: 20px;
+  padding: 40px;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+  box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
+}
 
-	You may either embed css in this file or use a separate .css file
-	in the same directory as this file, as demonstrated here.
+img{
+  height: 75px;
+  width: 270px;
+  margin: auto;
+}
+.brand-title {
+  margin-top: 10px;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #1DA1F2;
+  letter-spacing: 1px;
+}
 
-	It should be noted when designing a custom splash page
-	that for security reasons many CPD implementations:
-		Immediately close the browser when the client has authenticated.
-		Prohibit the use of href links.
-		Prohibit downloading of external files
-			(including .css and .js).
-		Prohibit the execution of javascript.
+.inputs {
+  text-align: left;
+  margin-top: 30px;
+}
 
-Authentication:
-	A client is authenticated on submitting an HTTP form, method=get,
-	passing $authaction, $tok and $redir.
+label, input, button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
 
-	It is also possible to authenticate using an href link to
-	$authtarget but be aware that many device Captive Portal Detection
-	processes prohibit href links, so this method may not work with
-	all client devices.
+label {
+  margin-bottom: 4px;
+}
 
-Available variables:
-	error_msg: $error_msg
-	gatewayname: $gatewayname
-	tok: $tok
-	redir: $redir
-	authaction: $authaction
-	denyaction: $denyaction
-	authtarget: $authtarget
-	clientip: $clientip
-	clientmac: $clientmac
-	clientupload: $clientupload
-	clientdownload: $clientdownload
-	gatewaymac: $gatewaymac
-	nclients: $nclients
-	maxclients: $maxclients
-	uptime: $uptime
+label:nth-of-type(2) {
+  margin-top: 12px;
+}
+input::placeholder {
+  color: gray;
+}
 
-Additional variables for binauth that can be passed back via the HTTP GET,
-or appended to the query string of the authtarget link:
-	username
-	password
--->
+input {
+  background: #ecf0f3;
+  padding: 10px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+.button {
+  color: white;
+  margin-top: 20px;
+  background: #573b8a;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 900;
+  transition: 0.5s;
+  box-shadow :none;
+}
+
+.button:hover {
+  box-shadow: none;
+  background: #6d44b8;
+
+}
+a {
+  position: absolute;
+  font-size: 8px;
+  bottom: 4px;
+  right: 4px;
+  text-decoration: none;
+  color: black;
+  background: yellow;
+  border-radius: 10px;
+  padding: 2px;
+}
+
+h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#iotisticLogo{
+height:35px;
+width:100px;
+margin:auto;
+margin-bottom:1px;
+margin-top:1px;
+}
+
+.k{
+margin: 11%;
+position: relative;
+}
+
+.f_text {
+position: absolute;
+top: -15px;
+left:85px;
+font-size:10px;
+color:white;
+}
+</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 
 <body>
-<div class="offset">
-<med-blue>$gatewayname Hotspot Gateway.</med-blue>
-<div class="insert">
-<br>
-<img src="/images/splash.jpg" alt="Splash Page: For access to the Internet, please click Continue.">
-<hr>
-<big-red>Welcome!</big-red>
-<hr>
-<br>
-<italic-black>For access to the Internet, please tap or click Continue.</italic-black>
-<br><br>
-<hr>
-
-<form method="GET" action="$authaction">
-<input type="hidden" name="tok" value="$tok">
-<input type="hidden" name="redir" value="$redir">
-<!-- for binauth script
-<label>Name:</label>
-<input type="text" name="username"><br><br>
-<label>Password:</label>
-<input type="text" name="password"><br><br>
--->
-<input type="submit" value="Continue">
-</form>
-	
-<hr>
-<copy-right>Copyright &copy; The Nodogsplash Contributors 2004-2023.<br>This software is released under the GNU GPL license.</copy-right>
-
-</div></div>
+    <div class="container">
+        <img src="/images/Etisalat_eand_Logo_EN.svg.png" alt="Etisalat logo">
+        <br>
+        <form method="get" action="$authaction" id="myForm">
+            <div class="inputs">
+                <input type="hidden" name="tok" value="$tok">
+                <input type="hidden" name="redir" value="$redir">
+                <label style="color:white">PHONE NUMBER</label>
+                <input type="text" name="username" placeholder="XXX XXX XXX XXX" id="name">
+                <label style="color:white">EMAIL</label>
+                <input type="email" name="password" placeholder="exampl@gmail.com" id="email">
+	        <!-- <label style="color:white">Mobile Number</label>
+		<input type="tetx"  placeholder="0123456789" id="phone"> -->
+		<input class="button" type="submit" value="Continue" id="saveButton">
+            </div>
+        </form>    
+     <div class="k">
+      <img src="/images/iotisticLogo.png" alt="iotistic logo" id="iotisticLogo">
+      <h3 class="f_text"> Powered by</h3>
+    </div>
+    </div>
+<p id="demo"></p>
 </body>
-</html>
+<script>
+
+ document.getElementById("myForm").addEventListener("submit", function(event) {
+
+    // Prevent the default form submission
+
+    event.preventDefault();
+
+
+    // Call the function to validate the form inputs
+
+    if (validateForm()) {
+
+      // // If the form is valid, you can submit it to the server
+      //  console.log("before");
+      //  sendData();
+      //  console.log("After");
+
+       event.target.submit();
+    }
+
+  });
+
+
+  function validateForm() {
+
+    var phone = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var p=/^\d{12}$/;
+    
+    if (phone.trim() === "") {
+      alert("Please enter your phone number.");
+      return false;
+    }
+    if(!(phone.match(p))){
+      alert ("please enter valid phone number");
+      return false;
+        }
+        
+
+    if (email.trim() === "") {
+      alert("Please enter your email address.");
+      return false;
+    }
+     if( ! (email.trim().match(mailformat)))
+     {
+       alert("please enter valid email address");
+       return false;
+      }
+
+
+    return true;
+
+  }
+
+
+
+// function sendData() {
+// 			var phone = document.getElementById('phone').value;
+// 			var name = document.getElementById('name').value;
+// 			var email = document.getElementById('email').value;
+//                         send_data = {
+// 				name: name,
+// 				phone: phone,
+// 				email: email
+// 			}
+// 			const xhr = new XMLHttpRequest();
+// 			xhr.open('POST', '/process', true); // Replace '/save_data' with the correct URL for your Flask endpoint
+// 			xhr.setRequestHeader('Content-Type', 'application/json');
+			
+
+
+// // Set up the callback for when the request is completed
+// xhr.onload = function() {
+// if (xhr.status === 204) {
+// console.log('Data saved successfully!');
+// } else {
+// console.error('Failed to save data.');
+// }
+// };
+
+// // Set up the callback for any network errors
+// xhr.onerror = function() {
+// console.error('Network error occurred.');
+// };
+
+
+
+// // Send the JSON data
+// 			xhr.send(JSON.stringify(send_data));
+//                         console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFF");
+//                         console.log(name);
+// 			// $.ajax({
+// 			// 	url: '/process',
+// 			// 	type: 'POST',
+// 			// 	contentType: 'application/json',
+// 			// 	data: JSON.stringify({ 'value': value }),
+// 			// 	success: function (response) {
+// 			// 		document.getElementById('output').innerHTML = response.result;
+// 			// 	},
+// 			// 	error: function (error) {
+// 			// 		console.log(error);
+// 			// 	}
+// 			// });
+
+// 		}
+</script>
+
+ </html>
+

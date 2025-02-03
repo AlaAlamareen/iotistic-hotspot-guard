@@ -160,9 +160,14 @@ fw_refresh_client_list(void)
 			debug(LOG_ERR, "Client was freed while being re-validated!");
 			continue;
 		}
-
+		//debug(LOG_NOTICE, "CP mac : %s, id : %i", cp1->mac, cp1->id);
+		//auth_client_auth_nolock(cp1->id, "ndsctl_auth");
 		unsigned int conn_state = cp1->fw_connection_state;
 		time_t last_updated = cp1->counters.last_updated;
+		double full_consumed_data_mb = (cp1->mac, cp1->counters.outgoing/1000/1000)+(cp1->counters.incoming/1000/1000);
+		
+		if(full_consumed_data_mb > config->maximum_data_consumed_before_reduce_speed)
+			debug(LOG_NOTICE,"Enable speed limit");
 
 		if (cp1->session_end > 0 && cp1->session_end <= now) {
 			/* Session ended (only > 0 for FW_MARK_AUTHENTICATED by binauth) */
